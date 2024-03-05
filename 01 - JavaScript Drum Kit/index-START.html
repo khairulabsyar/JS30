@@ -117,11 +117,6 @@
     />
 
     <script>
-      function removeTransition(e) {
-        if (e.propertyName !== 'transform') return;
-        e.target.classList.remove('playing');
-      }
-
       function playSound(e) {
         const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
         const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
@@ -131,14 +126,9 @@
         key.classList.add('playing');
         audio.currentTime = 0;
         audio.play();
-      }
 
-      // Event delegation for transitionend event
-      document.querySelector('.keys').addEventListener('transitionend', (e) => {
-        if (e.target.classList.contains('key')) {
-          removeTransition(e);
-        }
-      });
+        setTimeout(() => key.classList.remove('playing'), 300);
+      }
 
       window.addEventListener('keydown', playSound);
     </script>
