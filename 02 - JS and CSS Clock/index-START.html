@@ -1,75 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>JS + CSS Clock</title>
-  <link rel="icon" href="https://fav.farm/🔥" />
-</head>
-<body>
-
-
+  <head>
+    <meta charset="UTF-8" />
+    <title>JS + CSS Clock</title>
+    <link
+      rel="icon"
+      href="https://fav.farm/🔥"
+    />
+  </head>
+  <body>
     <div class="clock">
       <div class="clock-face">
-        <div class="hand hour-hand"></div>
+        <div class="hand hour-hand hour"></div>
         <div class="hand min-hand"></div>
         <div class="hand second-hand"></div>
       </div>
     </div>
 
+    <style>
+      html {
+        background: #018ded url(https://unsplash.it/1500/1000?image=881&blur=5);
+        background-size: cover;
+        font-family: 'helvetica neue';
+        text-align: center;
+        font-size: 10px;
+      }
 
-  <style>
-    html {
-      background: #018DED url(https://unsplash.it/1500/1000?image=881&blur=5);
-      background-size: cover;
-      font-family: 'helvetica neue';
-      text-align: center;
-      font-size: 10px;
-    }
+      body {
+        margin: 0;
+        font-size: 2rem;
+        display: flex;
+        flex: 1;
+        min-height: 100vh;
+        align-items: center;
+      }
 
-    body {
-      margin: 0;
-      font-size: 2rem;
-      display: flex;
-      flex: 1;
-      min-height: 100vh;
-      align-items: center;
-    }
+      .clock {
+        width: 30rem;
+        height: 30rem;
+        border: 20px solid white;
+        border-radius: 50%;
+        margin: 50px auto;
+        position: relative;
+        padding: 2rem;
+        box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1), inset 0 0 0 3px #efefef, inset 0 0 10px black,
+          0 0 10px rgba(0, 0, 0, 0.2);
+      }
 
-    .clock {
-      width: 30rem;
-      height: 30rem;
-      border: 20px solid white;
-      border-radius: 50%;
-      margin: 50px auto;
-      position: relative;
-      padding: 2rem;
-      box-shadow:
-        0 0 0 4px rgba(0,0,0,0.1),
-        inset 0 0 0 3px #EFEFEF,
-        inset 0 0 10px black,
-        0 0 10px rgba(0,0,0,0.2);
-    }
+      .clock-face {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform: translateY(-3px); /* account for the height of the clock hands */
+      }
 
-    .clock-face {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transform: translateY(-3px); /* account for the height of the clock hands */
-    }
+      .hand {
+        width: 50%;
+        height: 6px;
+        background: black;
+        position: absolute;
+        top: 50%;
+        transform-origin: 100%;
+      }
 
-    .hand {
-      width: 50%;
-      height: 6px;
-      background: black;
-      position: absolute;
-      top: 50%;
-    }
+      .hour-hand {
+        background-color: black;
+        width: 35%;
+        right: 50%;
+      }
 
-  </style>
+      .min-hand {
+        background-color: black;
+      }
 
-  <script>
+      .second-hand {
+        background-color: red;
+      }
+    </style>
 
+    <script>
+      const secondHand = document.querySelector('.second-hand');
+      const minsHand = document.querySelector('.min-hand');
+      const hourHand = document.querySelector('.hour-hand');
 
-  </script>
-</body>
+      const setTime = () => {
+        let time = new Date();
+
+        const seconds = time.getSeconds();
+        const secondsDegrees = (seconds / 60) * 360 + 90;
+        secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+
+        const mins = time.getMinutes();
+        const minsDegrees = (mins / 60) * 360 + (seconds / 60) * 6 + 90;
+        minsHand.style.transform = `rotate(${minsDegrees}deg)`;
+
+        const hour = time.getHours();
+        const hourDegrees = (hour / 12) * 360 + (mins / 60) * 30 + 90;
+        hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+      };
+
+      setInterval(setTime, 1000);
+      setTime();
+    </script>
+  </body>
 </html>
+
+<!-- 
+  1. (mins / 60) * 360: This part calculates the degree position of the minute
+hand based solely on the minutes. Since there are 60 minutes in a full hour (which is a full circle of 360 degrees),
+each minute is worth 360 / 60 = 6 degrees. 
+  2. ((seconds / 60) * 6): This part adds additional degrees to account for the
+exact position of the minute hand based on the number of seconds past the current minute. Since each minute is 6 degrees
+and each minute has 60 seconds, each second moves the minute hand 1/60 of that distance. Therefore, each second is worth
+6 / 60 = 0.1 degrees. 
+  3. + 90: This part is likely an offset to adjust the starting position of the minute hand. If the
+clock's 0-degree point is at 12 o'clock (the top), an additional 90 degrees would rotate the hands to start from the 3
+o'clock position (the right side), which is the typical zero point for CSS transforms. 
+
+Putting it all together:
+1. minsDegrees starts with the base position of the minute hand based on the minutes. 
+2. It then adds a fractional part of the 6 degrees based on how many seconds have passed in the current minute. 
+3. Finally, it adds 90 degrees to rotate the hand to the correct starting position. 
+-->
