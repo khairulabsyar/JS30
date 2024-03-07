@@ -17,7 +17,7 @@
         id="spacing"
         type="range"
         name="spacing"
-        min="10"
+        min="0"
         max="200"
         value="10"
         data-sizing="px"
@@ -30,7 +30,7 @@
         name="blur"
         min="0"
         max="25"
-        value="10"
+        value="5"
         data-sizing="px"
       />
 
@@ -39,11 +39,14 @@
         id="base"
         type="color"
         name="base"
-        value="#ffc600"
+        value="#008000"
       />
     </div>
 
-    <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500" />
+    <img
+      class="image"
+      src="https://source.unsplash.com/7bwQXzbF6KE/800x500"
+    />
 
     <style>
       /*
@@ -69,7 +72,53 @@
     </style>
 
     <script>
-      console.log('Hello World');
+      const image = document.querySelector('img');
+      const spacing = document.getElementById('spacing');
+      const blur = document.getElementById('blur');
+      const color = document.getElementById('base');
+      const hl = document.getElementsByClassName('hl')[0];
+
+      function setInitialStyle() {
+        const initiaSpace = spacing.value;
+        const initialBlur = blur.value;
+        const initialColor = color.value;
+
+        image.style.padding = `${initiaSpace}px`;
+        image.style.filter = `blur(${initialBlur}px)`;
+        image.style.backgroundColor = initialColor;
+        hl.style.color = initialColor;
+      }
+
+      function handleInputChange(input) {
+        const value = input.value;
+
+        if (input === spacing) {
+          image.style.padding = `${value}px`;
+        } else if (input === blur) {
+          image.style.filter = `blur(${value}px`;
+        } else if (input === color) {
+          image.style.backgroundColor = value;
+          hl.style.color = value;
+        }
+      }
+
+      document.querySelectorAll('input').forEach((input) => {
+        input.addEventListener('input', () => handleInputChange(input));
+      });
+
+      setInitialStyle();
     </script>
   </body>
 </html>
+
+<!-- 
+  The difference between document.querySelectorAll('input') and document.querySelectorAll('.controls input') lies in the way they select elements in the DOM.
+
+  1. document.querySelectorAll('input'): This selects all <input> elements in the entire document, regardless of their parent elements. It will return a NodeList of all <input> elements found in the document.
+
+  2. document.querySelectorAll('.controls input'): This selects all <input> elements that are descendants of an element with the class controls. It will return a NodeList of all <input> elements that are nested inside an element with the class controls.
+
+  In summary, the first query selects all <input> elements in the document, while the second query selects only those <input> elements that are descendants of an element with the class controls. 
+
+  this.dataset is a really interesting things depends on data-... been declared in HTML
+-->
