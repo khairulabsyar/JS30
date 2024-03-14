@@ -1,20 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>HTML5 Canvas</title>
-  <link rel="icon" href="https://fav.farm/🔥" />
-</head>
-<body>
-<canvas id="draw" width="800" height="800"></canvas>
-<script>
-</script>
+  <head>
+    <meta charset="UTF-8" />
+    <title>HTML5 Canvas</title>
+    <link
+      rel="icon"
+      href="https://fav.farm/🔥"
+    />
+  </head>
+  <body>
+    <canvas
+      id="draw"
+      width="800"
+      height="800"
+    ></canvas>
+    <script>
+      const MAX_LINE_WIDTH = 50;
+      const MIN_LINE_WIDTH = 1;
+      const HUE_MAX = 360;
 
-<style>
-  html, body {
-    margin: 0;
-  }
-</style>
+      const canvas = document.querySelector('#draw');
+      const ctx = canvas.getContext('2d');
 
-</body>
+      function setCanvasSize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      setCanvasSize();
+      window.addEventListener('resize', setCanvasSize);
+
+      ctx.lineWidth = MAX_LINE_WIDTH;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      let isDrawing = false;
+      let startOffSetX = 0;
+      let startOffSetY = 0;
+      let hue = 0;
+      let isLineWidthIncreasing = true;
+
+      const draw = (e) => {
+        if (!isDrawing) return;
+
+        ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+
+        ctx.beginPath();
+        ctx.moveTo(startOffSetX, startOffSetY);
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+
+        [startOffSetX, startOffSetY] = [e.offsetX, e.offsetY];
+
+        hue = (hue + 1) % HUE_MAX;
+
+        if (ctx.lineWidth >= MAX_LINE_WIDTH || ctx.lineWidth <= MIN_LINE_WIDTH) {
+          isLineWidthIncreasing = !isLineWidthIncreasing;
+        }
+
+        if (isLineWidthIncreasing) {
+          ctx.lineWidth++;
+        } else {
+          ctx.lineWidth--;
+        }
+      };
+
+      canvas.addEventListener('mousemove', draw);
+      canvas.addEventListener('mousedown', (e) => {
+        isDrawing = true;
+        [startOffSetX, startOffSetY] = [e.offsetX, e.offsetY];
+        e.preventDefault();
+      });
+      canvas.addEventListener('mouseup', () => (isDrawing = false));
+      canvas.addEventListener('mouseout', () => (isDrawing = false));
+    </script>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+      }
+    </style>
+  </body>
 </html>
