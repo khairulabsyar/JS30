@@ -1,47 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Console Tricks!</title>
-  <link rel="icon" href="https://fav.farm/🔥" />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Console Tricks!</title>
+    <link
+      rel="icon"
+      href="https://fav.farm/🔥"
+    />
+  </head>
+  <body>
+    <p onClick="makeGreen()">×BREAK×DOWN×</p>
 
-  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+    <script>
+      const dogs = [
+        { name: 'Snickers', age: 2 },
+        { name: 'hugo', age: 8 },
+      ];
 
-  <script>
-    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
+      function makeGreen() {
+        const p = document.querySelector('p');
+        p.style.color = '#BADA55';
+        p.style.fontSize = '50px';
+      }
 
-    function makeGreen() {
+      // Regular
+      console.log('Hello');
+
+      // Interpolated %s ` `
+      console.log('Hello I am a %s strings!', '💩');
+      // same as
+      console.log(`Hello Im using backtick ${'💯'}`);
+
+      // Styled $c
+      console.log('%c Im a great text', 'font-size:50px; background:red; text-shadow: 10px 10px 0 blue');
+
+      // warning!
+      console.warn('WROOOONNNGG!');
+
+      // Error :|
+      console.error('OMG!');
+
+      // Info
+      console.info('This is some info');
+
+      // Testing, only fire when it is wrong
+      console.assert(1 === 2, 'That is wrong 1 is not equal to 2!');
       const p = document.querySelector('p');
-      p.style.color = '#BADA55';
-      p.style.fontSize = '50px';
-    }
+      console.assert(p.classList.contains('ouch'), 'You did not select the right element');
 
-    // Regular
+      // clearing
+      // console.clear();
 
-    // Interpolated
+      // Viewing DOM Elements
+      console.dir(p);
 
-    // Styled
+      // Grouping together
+      dogs.forEach((dog) => {
+        // console.group(`${dog.name}`); // automatically show everything
+        console.groupCollapsed(`${dog.name}`); // will make it collapse by default
+        console.log(`This is ${dog.name}`);
+        console.log(`${dog.name} is ${dog.age} years old`);
+        console.log(`${dog.name} is ${dog.age * 7} dog years old`);
+        console.groupEnd(`${dog.name}`);
+      });
 
-    // warning!
+      // counting
+      console.count('WROOOONNNGG');
+      console.count('RIIIIGHHHTT');
+      console.count('WROOOONNNGG');
+      console.count('WROOOONNNGG');
+      console.count('RIIIIGHHHTT');
+      console.count('WROOOONNNGG');
+      console.count('RIIIIGHHHTT');
+      console.count('WROOOONNNGG');
+      console.count('WROOOONNNGG');
+      console.count('RIIIIGHHHTT');
+      console.count('WROOOONNNGG');
 
-    // Error :|
+      // timing
+      console.time('Fetching data');
+      fetch('https://api.github.com/users/khairulabsyar')
+        .then((data) => data.json())
+        .then((data) => {
+          console.log(data);
+          console.timeEnd('Fetching data');
+        });
 
-    // Info
-
-    // Testing
-
-    // clearing
-
-    // Viewing DOM Elements
-
-    // Grouping together
-
-    // counting
-
-    // timing
-
-  </script>
-</body>
+      // table
+      console.table(dogs);
+    </script>
+  </body>
 </html>
