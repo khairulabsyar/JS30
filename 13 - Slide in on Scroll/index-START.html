@@ -201,7 +201,7 @@
 
       const checkSlide = () => {
         images.forEach((image, index) => {
-          const slideIn = window.scrollY + window.innerHeight - image.height / 2;
+          const slideIn = window.scrollY + window.innerHeight - image.height / 2; // By adding window.scrollY and window.innerHeight, you get the position of the bottom of the viewport. then minus a bit based on the image size (half)
           const isHalfShown = slideIn > image.offsetTop;
 
           const imgBottom = image.offsetTop + image.height;
