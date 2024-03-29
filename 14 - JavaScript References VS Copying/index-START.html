@@ -32,8 +32,8 @@
 
       // You might think we can just do something like this:
       //
-      // team2[2] = 'LUX';
-      // console.log("players, team: ",players, team);
+      // team[2] = 'LUX';
+      // console.log('players, team: ', players, team);
 
       // however what happens when we update that array?
 
@@ -44,12 +44,13 @@
       // Why? It's because that is an array reference, not an array copy. They both point to the same array!
 
       // So, how do we fix this? We take a copy instead!
-      const team2 = players.slice(); // const team2 = [].concat(players)
+      const team2 = players.slice();
       team2[2] = 'LUX';
       console.log('players, team2: ', players, team2);
       // one way
 
       // or create a new array and concat the old one in
+      // const team2 = [].concat(players)
 
       // or use the new ES6 Spread
       const t3 = [...players];
